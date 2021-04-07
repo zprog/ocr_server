@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.css">
+     <title>Upload Image</title>
+<style>
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Limit image width to avoid overflow the container */
+img {
+  max-width: 100%; /* This rule is very important, please do not ignore this! */
+}
+
+#canvas {
+  height: 600px;
+  width: 600px;
+  background-color: #ffffff;
+  cursor: default;
+  border: 1px solid black;
+}
+
+</style>
+ </head>
+ <body>
+     <div id="msg-div">
+         {% if msg %}
+         <h1>{{ msg }}</h1>
+         {% endif %}
+     </div>
+
+{% if crop %}     
+    <p>
+<!-- Below are a series of inputs which allow file selection and interaction with the cropper api -->
+		<input type="file" id="fileInput" accept="image/*" />
+		<input type="button" id="btnCrop" value="Crop" />
+		<input type="button" id="btnRestore" value="Restore" />
+</p>
+<div>
+  <canvas id="canvas">
+    Your browser does not support the HTML5 canvas element.
+  </canvas>
+</div>		
+
+<div id="result"></div>
+
+
+<form id="upload_form" action="/upload" method="POST" enctype="multipart/form-data">
+<input type="text" id="b64_text_field" name="b64_text_field">
+<input type="text" id="b64_name" name="b64_name">
+<input type="submit" value="Upload cropped">
+</form>
+{% endif %}
+{% if img_src %}
+    <img src="{{img_src}}">
+    {% endif %}
+{% if extracted_text %}
+     <p> The extracted text from the image above is:</p>
+     {% for key in extracted_text %}
+     {{key}}:<pre style="border: dotted; padding: 1%;">{{ extracted_text[key] }}</pre>
+     {% endfor %}
+   {% else %}
+     The extracted text will be displayed here
+   {% endif %}
+     
+
+<script>
+var canvas  = $("#canvas"),
+    context = canvas.get(0).getContext("2d"),
+    $result = $('#result');
+
+$('#fileInput').on( 'change', function(){
+    if (this.files && this.files[0]) {
+      if ( this.files[0].type.match(/^image\//) ) {
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+           var img = new Image();
+           img.onload = function() {
+             context.canvas.height = img.height;
+             context.canvas.width  = img.width;
+             context.drawImage(img, 0, 0);
+             var cropper = canvas.cropper({
+               aspectRatio: 0
+             });
+             $('#btnCrop').click(function() {
+                // Get a string base 64 data url
+                var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png"); 
+                $result.append( $('<img>').attr('src', croppedImageDataURL) );
+                // my stuff
+                // grab the src from the img tag inside of div with id result
+                var result_div = document.getElementById('result');
+                var imgsrc = result_div.firstChild.src;
+
+                //let's create a new image 
+                var new_img = new Image();
+                new_img.src = imgsrc;
+
+                //something simpler
+                b64_tf = document.getElementById("b64_text_field");
+                b64_tf.value = imgsrc;
+                img_name = document.getElementById("fileInput").files[0].name;
+                console.log(img_name);
+                b64_name = document.getElementById("b64_name");
+                b64_name.value = img_name;
+             });
+             $('#btnRestore').click(function() {
+               canvas.cropper('reset');
+               $result.empty();
+             });
+           };
+           img.src = evt.target.result;
+				};
+        reader.readAsDataURL(this.files[0]);
+      }
+      else {
+        alert("Invalid file type! Please select an image file.");
+      }
+    }
+    else {
+      alert('No file(s) selected.');
+    }
+});
+
+// my stuf
+function submitCrop() {
+    var result_div = document.getElementById('result');
+    var imgsrc = result_div.firstChild.src;
+    console.log(imgsrc);
+    var new_img = new Image();
+    new_img.src = imgsrc;
+    cropFile = document.getElementById('finalCrop');
+    console.log(new_img);
+    newImgBlob = dataURItoBlob(imgsrc);
+    console.log("new", newImgBlob);
+    var fd = new FormData(document.forms[0]);
+    fd.append("finalCrop", newImgBlob);
+}
+
+
+function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+}
+
+</script>
+
+</body>
+</html>
