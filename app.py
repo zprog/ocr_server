@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, Blueprint
 from werkzeug.datastructures import FileStorage
 #b64 decode strip mime
 import base64
@@ -14,11 +14,13 @@ UPLOAD_FOLDER = 'static/uploads/'
 # allow files of a specific type
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
+bp = Blueprint('app', __name__)
 
 def create_app(test_config=None):
     #create and configure the app
     app = Flask(__name__)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.register_blueprint(app.bp)
     return app
 
 # function to check the file extension
