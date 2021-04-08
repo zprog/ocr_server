@@ -6,7 +6,7 @@ import base64
 
 # import our OCR function
 #from ocr_core import ocr_core
-import ci2
+from . import ci2
 
 
 # allow files of a specific type

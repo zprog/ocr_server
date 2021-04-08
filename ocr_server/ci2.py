@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from ocr_core import ocr_core
+from . import ocr_core.ocr_core
 from PIL import Image
 import pytesseract
 
