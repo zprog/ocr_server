@@ -41,6 +41,7 @@ def upload_page():
         if 'b64_text_field' not in request.form:
             return render_template('upload.html', msg='No file selected')
         b64_string = str.encode(request.form['b64_text_field'].split(",")[1])
+        b64_string_whole = request.form['b64_text_field']
         b64_name = request.form['b64_name']
         #file = FileStorage(content_type='image/png', filename='newImg242.png', name='image_placeholder', content_length=0, stream=b64_string)
         img_ready = "roiCrop_of_" + b64_name
@@ -52,7 +53,7 @@ def upload_page():
         extracted_text = ci2.ocr(b64_string)
         # extracted_text = ci2.ocr(img_ready)
         #extra white space is caused by \x0c
-        return render_template('upload.html', msg='Successfully processed', extracted_text=extracted_text, results="results", img_src=url_for('static', filename='uploads/' + img_ready), code=301)
+        return render_template('upload.html', msg='Successfully processed', extracted_text=extracted_text, results="results", img_src=b64_string_whole, code=301)
 
             #file = FileStorage(stream=fh, content_type='image/png', filename='newImg448.png',)
         #file = object
