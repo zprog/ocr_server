@@ -14,8 +14,12 @@ UPLOAD_FOLDER = 'static/uploads/'
 # allow files of a specific type
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def create_app(test_config=None):
+    #create and configure the app
+    app = Flask(__name__)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    return app
 
 # function to check the file extension
 def allowed_file(filename):
@@ -71,9 +75,7 @@ def upload_page():
     elif request.method == 'GET':
         return render_template('upload.html', crop="yes")
 
-def heroku_start():
-    return app.run()
-    
-if __name__ == '__main__':
-    app.run()
+# TODO:  Command line
+# if __name__ == '__main__':
+#     app.run()
 
