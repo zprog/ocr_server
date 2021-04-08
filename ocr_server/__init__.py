@@ -9,7 +9,7 @@ def create_app(test_config=None):
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     #register blueprint
-    from . import app
+    from . import ocr_app
     app.register_blueprint(app.bp)
     app.add_url_rule('/', endpoint='index')
     
