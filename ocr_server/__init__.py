@@ -1,5 +1,4 @@
 import os
-from  used_inventory.api_secrets import SUPER_SECRET_DB_KEY
 from flask import Flask
 
 def create_app(test_config=None):
