@@ -6,10 +6,8 @@ import base64
 
 # import our OCR function
 #from ocr_core import ocr_core
-import ci2
+import app.ci2
 
-# define a folder to store and later serve the images
-UPLOAD_FOLDER = 'static/uploads/'
 
 # allow files of a specific type
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
