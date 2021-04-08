@@ -1,6 +1,1 @@
 libgl1
-
-:repo:deb http://http.us.debian.org/debian stretch main
-libpng-dev
-libpng12
-libgpng12-
