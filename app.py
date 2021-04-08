@@ -14,7 +14,7 @@ UPLOAD_FOLDER = 'static/uploads/'
 # allow files of a specific type
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-
+bp = Blueprint('app', __name__)
 
 def create_app(test_config=None):
     #create and configure the app
