@@ -71,6 +71,9 @@ def upload_page():
     elif request.method == 'GET':
         return render_template('upload.html', crop="yes")
 
+def heroku_start():
+    return app.run()
+    
 if __name__ == '__main__':
     app.run()
 
