@@ -12,7 +12,7 @@ from . import ci2
 # allow files of a specific type
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-bp = Blueprint('app', __name__)
+bp = Blueprint('ocr_app', __name__)
 
 # def create_app(test_config=None):
 #     #create and configure the app
