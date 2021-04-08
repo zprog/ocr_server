@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, url_for, Blueprint
 from werkzeug.datastructures import FileStorage
 #b64 decode strip mime
-import base64
+#import base64
 
 # import our OCR function
 #from ocr_core import ocr_core

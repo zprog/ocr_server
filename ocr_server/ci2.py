@@ -3,6 +3,8 @@ import numpy as np
 #from . import ocr_core
 from PIL import Image
 import pytesseract
+#b64 decode strip mime
+import base64
 
 def ocr_init():
     #ORIGINAL_IMAGE = "IMG_4031.jpg"
