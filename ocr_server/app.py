@@ -16,13 +16,13 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 bp = Blueprint('app', __name__)
 
-def create_app(test_config=None):
-    #create and configure the app
-    app = Flask(__name__)
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    bp = Blueprint('app', __name__)
-    app.register_blueprint(app.bp)
-    return app
+# def create_app(test_config=None):
+#     #create and configure the app
+#     app = Flask(__name__)
+#     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#     bp = Blueprint('app', __name__)
+#     app.register_blueprint(app.bp)
+#     return app
 
 # function to check the file extension
 def allowed_file(filename):
@@ -35,8 +35,8 @@ def allowed_file(filename):
     #return render_template('index.html')
 
 # route and function to handle the upload page
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/upload', methods=['GET', 'POST'])
+@bp.route('/', methods=['GET', 'POST'])
+@bp.route('/upload', methods=['GET', 'POST'])
 def upload_page():
     if request.method == 'POST':
         # check if there is a file in the request
