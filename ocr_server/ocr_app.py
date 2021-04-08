@@ -44,9 +44,13 @@ def upload_page():
         b64_name = request.form['b64_name']
         #file = FileStorage(content_type='image/png', filename='newImg242.png', name='image_placeholder', content_length=0, stream=b64_string)
         img_ready = "roiCrop_of_" + b64_name
-        with open("static/uploads/" + img_ready, "wb") as fh:
-            fh.write(base64.decodebytes(b64_string))
-        extracted_text = ci2.ocr(img_ready)
+        # with open("static/uploads/" + img_ready, "wb") as fh:
+            # fh.write(base64.decodebytes(b64_string))
+
+        # i just do it all in memory?
+        img_blob = base64.decodebytes(b64_string))
+        extracted_text = ci2.ocr(b64string)
+        # extracted_text = ci2.ocr(img_ready)
         #extra white space is caused by \x0c
         return render_template('upload.html', msg='Successfully processed', extracted_text=extracted_text, results="results", img_src=url_for('static', filename='uploads/' + img_ready), code=301)
 
