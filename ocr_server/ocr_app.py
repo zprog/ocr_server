@@ -48,7 +48,7 @@ def upload_page():
             # fh.write(base64.decodebytes(b64_string))
 
         # i just do it all in memory?
-        img_blob = base64.decodebytes(b64_string))
+        img_blob = base64.decodebytes(b64_string)
         extracted_text = ci2.ocr(b64string)
         # extracted_text = ci2.ocr(img_ready)
         #extra white space is caused by \x0c
