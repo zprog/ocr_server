@@ -11,8 +11,8 @@ def ocr_init():
 
 def ocr(ORIGINAL_IMAGE):
     # image = cv2.imread("static/uploads/" + ORIGINAL_IMAGE)
-    
-    image = cv2.imdecode(ORIGINAL_IMAGE, cv2.IMREAD_COLOR)
+    nparr = np.frombuffer(np.frombuffer(base64,decodebytes(ORIGINAL_IMAGE)))
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     roi = image
     #convert to grey
     gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
