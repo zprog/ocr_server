@@ -49,7 +49,7 @@ def upload_page():
 
         # i just do it all in memory?
         img_blob = base64.decodebytes(b64_string)
-        extracted_text = ci2.ocr(b64string)
+        extracted_text = ci2.ocr(img_blob)
         # extracted_text = ci2.ocr(img_ready)
         #extra white space is caused by \x0c
         return render_template('upload.html', msg='Successfully processed', extracted_text=extracted_text, results="results", img_src=url_for('static', filename='uploads/' + img_ready), code=301)
