@@ -10,7 +10,7 @@ def create_app(test_config=None):
 
     #register blueprint
     from . import ocr_app
-    app.register_blueprint(app.bp)
+    app.register_blueprint(ocr_app.bp)
     app.add_url_rule('/', endpoint='index')
     
     return app
