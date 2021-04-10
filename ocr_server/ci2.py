@@ -30,7 +30,6 @@ def ocr(ORIGINAL_IMAGE):
     # thin region to remove excess black border
     kernel = np.ones((3,3), np.uint8)
     morph = cv2.morphologyEx(morph, cv2.MORPH_ERODE, kernel)
-
     #print("MORPH: " + pytesseract.image_to_string(morph))
 
     img = roi
@@ -40,35 +39,30 @@ def ocr(ORIGINAL_IMAGE):
     # all pixels value above 120 will
     # be set to 255
     ret, thresh1 = cv2.threshold(img, 120, 255, cv2.THRESH_BINARY)
-    ret, thresh2 = cv2.threshold(img, 120, 255, cv2.THRESH_BINARY_INV)
-    ret, thresh3 = cv2.threshold(img, 120, 255, cv2.THRESH_TRUNC)
-    ret, thresh4 = cv2.threshold(img, 120, 255, cv2.THRESH_TOZERO)
-    ret, thresh5 = cv2.threshold(img, 120, 255, cv2.THRESH_TOZERO_INV)
+    # ret, thresh2 = cv2.threshold(img, 120, 255, cv2.THRESH_BINARY_INV)
+    # ret, thresh3 = cv2.threshold(img, 120, 255, cv2.THRESH_TRUNC)
+    # ret, thresh4 = cv2.threshold(img, 120, 255, cv2.THRESH_TOZERO)
+    # ret, thresh5 = cv2.threshold(img, 120, 255, cv2.THRESH_TOZERO_INV)
 
-    # the window showing output images
-    # with the corresponding thresholding
-    # techniques applied to the input images
-#    cv2.imshow('Binary Threshold', thresh1)
-#    cv2.imshow('Binary Threshold Inverted', thresh2)
-#    cv2.imshow('Truncated Threshold', thresh3)
-#    cv2.imshow('Set to 0', thresh4)
-#    cv2.imshow('Set to 0 Inverted', thresh5)
 
-    #print("t1: " + pytesseract.image_to_string(thresh1))
-    #print("t2: " + pytesseract.image_to_string(thresh2))
-    #print("t3: " + pytesseract.image_to_string(thresh3))
-    #print("t4: " + pytesseract.image_to_string(thresh4))
-    #print("t5: " + pytesseract.image_to_string(thresh5))
+    # the first two: morph and thresh seem to be the best over all.
+    # let's use those too and see how it affects performance.
     thresh_dict = {
             'Origin': pytesseract.image_to_string(roi),
             'M0': pytesseract.image_to_string(morph),
             'T0': pytesseract.image_to_string(thresh),
-            'T1': pytesseract.image_to_string(thresh1),
-            'T2': pytesseract.image_to_string(thresh2),
-            'T3': pytesseract.image_to_string(thresh3),
-            'T4': pytesseract.image_to_string(thresh4),
-            'T5': pytesseract.image_to_string(thresh5)
             }
+
+    # thresh_dict = {
+    #         'Origin': pytesseract.image_to_string(roi),
+    #         'M0': pytesseract.image_to_string(morph),
+    #         'T0': pytesseract.image_to_string(thresh),
+    #         'T1': pytesseract.image_to_string(thresh1),
+    #         'T2': pytesseract.image_to_string(thresh2),
+    #         'T3': pytesseract.image_to_string(thresh3),
+    #         'T4': pytesseract.image_to_string(thresh4),
+    #         'T5': pytesseract.image_to_string(thresh5)
+    #         }
 
     #print(pytesseract.image_to_string(roi))
     return thresh_dict
